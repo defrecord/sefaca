@@ -17,10 +17,20 @@ deps: ## Check system dependencies
 	@echo "Note: This is a placeholder repository. Core implementation in development."
 	@echo ""
 	@echo "Checking system requirements..."
-	@command -v python3 >/dev/null 2>&1 || { echo "Python 3.8+ is required but not installed."; exit 1; }
-	@command -v node >/dev/null 2>&1 || { echo "Node.js 16+ is required but not installed."; exit 1; }
-	@echo "✓ Python $(shell python3 --version 2>&1 | cut -d' ' -f2)"
-	@echo "✓ Node.js $(shell node --version)"
+	@if command -v python3 >/dev/null 2>&1; then \
+		PYTHON_CMD=python3; \
+	elif command -v python3.9 >/dev/null 2>&1; then \
+		PYTHON_CMD=python3.9; \
+	elif command -v python3.8 >/dev/null 2>&1; then \
+		PYTHON_CMD=python3.8; \
+	elif command -v python >/dev/null 2>&1; then \
+		PYTHON_CMD=python; \
+	else \
+		echo "Python 3.8+ is required but not installed."; exit 1; \
+	fi; \
+	command -v node >/dev/null 2>&1 || { echo "Node.js 16+ is required but not installed."; exit 1; }; \
+	echo "✓ Python $$($$PYTHON_CMD --version 2>&1 | cut -d' ' -f2)"; \
+	echo "✓ Node.js $$(node --version)"
 	@echo ""
 	@echo "Platform check..."
 	@uname -s | grep -q "FreeBSD" && echo "✓ FreeBSD detected" || echo "⚠ Warning: SEFACA is optimized for FreeBSD"
