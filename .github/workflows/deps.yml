@@ -63,7 +63,7 @@ jobs:
       with:
         usesh: true
         prepare: |
-          pkg install -y python39 node18 gmake
+          pkg install -y python39 node18 gmake guile3
         run: |
           echo "FreeBSD version:"
           freebsd-version
