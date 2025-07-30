@@ -36,15 +36,25 @@ test:
 lint:
 	@echo "Linting will be available when core implementation is released."
 
+# Check CI/CD status
+ci-status:
+	@echo "Checking CI/CD status for SEFACA..."
+	@echo ""
+	@echo "GitHub Actions workflow status:"
+	@echo "https://github.com/defrecord/sefaca/actions/workflows/deps.yml"
+	@echo ""
+	@command -v gh >/dev/null 2>&1 && gh workflow view deps.yml || echo "Install GitHub CLI (gh) for detailed status"
+
 # Show help
 help:
 	@echo "SEFACA - Safe Execution Framework for Autonomous Coding Agents"
 	@echo ""
 	@echo "Available targets:"
-	@echo "  make deps    - Check system dependencies"
-	@echo "  make clean   - Clean build artifacts"
-	@echo "  make test    - Run tests (placeholder)"
-	@echo "  make lint    - Run linters (placeholder)"
-	@echo "  make help    - Show this help message"
+	@echo "  make deps       - Check system dependencies"
+	@echo "  make clean      - Clean build artifacts"
+	@echo "  make test       - Run tests (placeholder)"
+	@echo "  make lint       - Run linters (placeholder)"
+	@echo "  make ci-status  - Check CI/CD workflow status"
+	@echo "  make help       - Show this help message"
 	@echo ""
 	@echo "Note: This is a placeholder repository while core code is in development."
