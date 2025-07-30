@@ -40,7 +40,17 @@ yarn-error.log*
 .idea/
 *.swp
 *.swo
+
+# Emacs
 *~
+\#*\#
+.\#*
+.emacs.desktop
+.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+*.org_archive
 
 # OS
 .DS_Store
