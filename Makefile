@@ -30,7 +30,14 @@ deps: ## Check system dependencies
 	fi; \
 	command -v node >/dev/null 2>&1 || { echo "Node.js 16+ is required but not installed."; exit 1; }; \
 	echo "✓ Python $$($$PYTHON_CMD --version 2>&1 | cut -d' ' -f2)"; \
-	echo "✓ Node.js $$(node --version)"
+	echo "✓ Node.js $$(node --version)"; \
+	if command -v guile3 >/dev/null 2>&1; then \
+		echo "✓ Guile $$(guile3 --version | head -1 | cut -d' ' -f4)"; \
+	elif command -v guile >/dev/null 2>&1; then \
+		echo "✓ Guile $$(guile --version | head -1 | cut -d' ' -f4)"; \
+	else \
+		echo "⚠ Guile 3.0+ not found (optional)"; \
+	fi
 	@echo ""
 	@echo "Platform check..."
 	@uname -s | grep -q "FreeBSD" && echo "✓ FreeBSD detected" || echo "⚠ Warning: SEFACA is optimized for FreeBSD"
