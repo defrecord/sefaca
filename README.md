@@ -50,7 +50,7 @@ Example: `[builder:ai:jwalsh@local(myapp:feature-123)]`
 
 ## Documentation
 
-Full documentation available at [docs.sefaca.dev](https://docs.sefaca.dev)
+Documentation is being developed. See [docs/README.md](docs/README.md) for planned content.
 
 ## License
 

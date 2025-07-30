@@ -1,10 +1,18 @@
-.PHONY: all deps clean test lint help
+.PHONY: help all deps clean test lint ci-status
 
-# Default target
-all: deps
+help: ## Show this help message
+	@echo "SEFACA - Safe Execution Framework for Autonomous Coding Agents"
+	@echo ""
+	@echo "Usage: make [target]"
+	@echo ""
+	@echo "Available targets:"
+	@grep -E '^[a-zA-Z_-]+:.*## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*## "}; {printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2}'
+	@echo ""
+	@echo "Note: This is a placeholder repository while core code is in development."
 
-# Install dependencies
-deps:
+all: deps ## Run all checks
+
+deps: ## Check system dependencies
 	@echo "Installing dependencies..."
 	@echo "Note: This is a placeholder repository. Core implementation in development."
 	@echo ""
@@ -19,8 +27,7 @@ deps:
 	@echo ""
 	@echo "Dependencies check complete."
 
-# Clean build artifacts
-clean:
+clean: ## Clean build artifacts
 	@echo "Cleaning build artifacts..."
 	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
@@ -28,33 +35,16 @@ clean:
 	rm -rf node_modules/ 2>/dev/null || true
 	@echo "Clean complete."
 
-# Run tests (placeholder)
-test:
+test: ## Run tests (placeholder)
 	@echo "Tests will be available when core implementation is released."
 
-# Run linters (placeholder)
-lint:
+lint: ## Run linters (placeholder)
 	@echo "Linting will be available when core implementation is released."
 
-# Check CI/CD status
-ci-status:
+ci-status: ## Check CI/CD workflow status
 	@echo "Checking CI/CD status for SEFACA..."
 	@echo ""
 	@echo "GitHub Actions workflow status:"
 	@echo "https://github.com/defrecord/sefaca/actions/workflows/deps.yml"
 	@echo ""
 	@command -v gh >/dev/null 2>&1 && gh workflow view deps.yml || echo "Install GitHub CLI (gh) for detailed status"
-
-# Show help
-help:
-	@echo "SEFACA - Safe Execution Framework for Autonomous Coding Agents"
-	@echo ""
-	@echo "Available targets:"
-	@echo "  make deps       - Check system dependencies"
-	@echo "  make clean      - Clean build artifacts"
-	@echo "  make test       - Run tests (placeholder)"
-	@echo "  make lint       - Run linters (placeholder)"
-	@echo "  make ci-status  - Check CI/CD workflow status"
-	@echo "  make help       - Show this help message"
-	@echo ""
-	@echo "Note: This is a placeholder repository while core code is in development."
