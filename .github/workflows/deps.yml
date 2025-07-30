@@ -1,0 +1,75 @@
+name: Dependencies Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+
+jobs:
+  deps-check:
+    name: Check Dependencies
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        node-version: ['16', '18', '20']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    
+    - name: Display versions
+      run: |
+        echo "Python version:"
+        python --version
+        echo "Node.js version:"
+        node --version
+        echo "System info:"
+        uname -a
+    
+    - name: Run dependency check
+      run: make deps
+    
+    - name: Check Makefile targets
+      run: |
+        echo "Available Makefile targets:"
+        make help
+
+  freebsd-check:
+    name: Check FreeBSD Compatibility
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: FreeBSD VM Test
+      uses: vmactions/freebsd-vm@v1
+      with:
+        usesh: true
+        prepare: |
+          pkg install -y python39 node18 gmake
+        run: |
+          echo "FreeBSD version:"
+          freebsd-version
+          echo "Python version:"
+          python3.9 --version
+          echo "Node.js version:"
+          node --version
+          echo "Running deps check:"
+          gmake deps
