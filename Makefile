@@ -1,4 +1,4 @@
-.PHONY: help all deps clean test lint ci-status serve-local test-install
+.PHONY: help all deps clean test lint ci-status serve-local test-install package-release
 
 help: ## Show this help message
 	@echo "SEFACA - Safe Execution Framework for Autonomous Coding Agents"
@@ -92,3 +92,20 @@ test-install: ## Test installation from localhost:9042 (run in another terminal)
 	@read -p "Press Enter to continue..." dummy
 	@export SEFACA_URL="http://localhost:9042/sefaca.sh" && \
 		curl -sSL http://localhost:9042/install.sh | sh
+
+package-release: ## Package SEFACA for website deployment
+	@echo "📦 Packaging SEFACA for release..."
+	@mkdir -p release
+	@cp scripts/install-pipe.sh release/install.sh
+	@cp scripts/sefaca.sh release/sefaca.sh
+	@echo "0.1.0-minimal" > release/version.txt
+	@cd release && sha256sum install.sh sefaca.sh > checksums.txt
+	@echo ""
+	@echo "✅ Release package created in ./release/"
+	@echo ""
+	@echo "Files to deploy:"
+	@echo "  - release/install.sh → https://sefaca.dev/install.sh"
+	@echo "  - release/sefaca.sh → https://sefaca.dev/sefaca.sh"
+	@echo ""
+	@echo "Checksums:"
+	@cat release/checksums.txt
