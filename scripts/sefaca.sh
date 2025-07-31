@@ -300,7 +300,7 @@ EOF
 }
 
 # Convenience wrapper for make
-SEFACA_make() {
+sefaca_make() {
     sefaca run make "$@"
 }
 
@@ -308,7 +308,7 @@ SEFACA_make() {
 export -f sefaca
 export -f sefaca_get_context
 export -f sefaca_log
-export -f SEFACA_make
+export -f sefaca_make
 
 # Initialize on source
 sefaca init

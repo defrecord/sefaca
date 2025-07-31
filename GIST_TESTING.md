@@ -2,7 +2,13 @@
 
 ## Quick Test Process
 
-1. **Copy deploy-gist.sh content to your Gist**
+1. **Update Gist Content**
+   ```bash
+   # From the SEFACA repo directory:
+   gh gist edit dc1ecee9eafcee7e3b5120306f76371f < deploy-gist.sh
+   ```
+   
+   Or manually:
    - Go to: https://gist.github.com/aygp-dr/dc1ecee9eafcee7e3b5120306f76371f
    - Replace content with `deploy-gist.sh`
    - Save the gist

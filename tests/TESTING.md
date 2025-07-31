@@ -46,7 +46,7 @@ The test captures (without values for security):
 ### Expected Changes
 
 After installation, you should see:
-- New shell functions: `sefaca`, `sefaca_get_context`, `sefaca_log`, `SEFACA_make`
+- New shell functions: `sefaca`, `sefaca_get_context`, `sefaca_log`, `sefaca_make`
 - New PATH entry: `~/.local/bin`
 - New files: `~/.local/bin/sefaca`, `~/.local/bin/sefaca-init`
 

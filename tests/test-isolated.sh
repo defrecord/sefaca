@@ -31,7 +31,7 @@ run_isolated_test() {
         export SEFACA_LOG_DIR="$test_home/.sefaca"
         
         # Clear any existing SEFACA functions
-        unset -f sefaca sefaca_get_context sefaca_log SEFACA_make 2>/dev/null || true
+        unset -f sefaca sefaca_get_context sefaca_log sefaca_make 2>/dev/null || true
         
         echo -e "${YELLOW}Step 1: Set up endpoint simulation${NC}"
         mkdir -p "$test_home/sefaca.dev"
