@@ -1,0 +1,83 @@
+name: Dogfood SEFACA Build
+
+on:
+  push:
+    branches: [ feat/minimal-implementation ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dogfood-build:
+    name: Build with SEFACA (WIP)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install SEFACA
+      run: |
+        echo "🐕 Installing SEFACA for dogfooding..."
+        # For now, source directly since we're testing
+        source scripts/sefaca.sh || {
+          echo "Failed to load SEFACA"
+          exit 1
+        }
+        
+        # Verify it loaded
+        type sefaca || {
+          echo "SEFACA functions not available"
+          exit 1
+        }
+        
+        # Show status
+        sefaca status
+    
+    - name: Safe Dependencies Check
+      run: |
+        # Load SEFACA
+        source scripts/sefaca.sh
+        
+        # Run make deps with SEFACA monitoring
+        echo "Running dependencies check with SEFACA controlled mode..."
+        sefaca run --mode controlled make deps
+    
+    - name: Safe Test Run
+      run: |
+        # Load SEFACA
+        source scripts/sefaca.sh
+        
+        # Run tests with SEFACA
+        echo "Running tests with SEFACA logging mode..."
+        sefaca run --mode logging make test
+    
+    - name: View SEFACA Logs
+      if: always()
+      run: |
+        # Load SEFACA
+        source scripts/sefaca.sh
+        
+        # Show audit trail
+        echo "SEFACA Audit Trail:"
+        sefaca logs all || echo "No logs available"
+    
+    # WIP: Future additions
+    # - name: Safe Python Build
+    #   run: |
+    #     source scripts/sefaca.sh
+    #     sefaca run --mode controlled --memory 2GB python setup.py build
+    
+    # - name: Safe Node Build  
+    #   run: |
+    #     source scripts/sefaca.sh
+    #     sefaca run --mode controlled --timeout 300s npm run build
+
+  # Demonstrate FreeBSD compatibility (when VM is stable)
+  # dogfood-freebsd:
+  #   name: FreeBSD Dogfood (WIP)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: FreeBSD Safe Build
+  #       run: |
+  #         echo "TODO: Run SEFACA on FreeBSD when VM is stable"
+  #         echo "See issue #1 for tracking"
