@@ -1,6 +1,6 @@
 #!/bin/bash
 # SEFACA Minimal Implementation - Safe Execution Framework for Autonomous Coding Agents
-# Deployment ID: sefaca-core-$(date +%Y%m%d-%H%M%S)
+# Git SHA: 67571dc
 # 
 # This minimal implementation provides core SEFACA functionality:
 # - Context tracking for every command

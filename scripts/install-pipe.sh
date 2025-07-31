@@ -1,6 +1,6 @@
 #!/bin/sh
 # SEFACA Installation Script for Piped Execution
-# Deployment ID: sefaca-deploy-$(date +%Y%m%d-%H%M%S)
+# Git SHA: 67571dc
 # This handles: curl -sSL https://sefaca.dev/install.sh | sh
 #
 # Since we're in a subshell, we can't modify the parent environment.
@@ -10,14 +10,14 @@ set -e
 
 # Configuration
 SEFACA_VERSION="0.1.0-minimal"
-DEPLOY_ID="sefaca-deploy-$(date +%Y%m%d-%H%M%S)-$$"
+SEFACA_SHA="67571dc"
 SEFACA_URL="${SEFACA_URL:-https://raw.githubusercontent.com/defrecord/sefaca/main/scripts/sefaca.sh}"
 INSTALL_DIR="${HOME}/.sefaca/bin"
 
 # Display banner
 echo ""
 echo "🐕 SEFACA - Safe Execution Framework for Autonomous Coding Agents"
-echo "📋 Deployment: ${DEPLOY_ID}"
+echo "📋 Version: ${SEFACA_VERSION} (${SEFACA_SHA})"
 echo ""
 echo "   ┌─────────────────────────────────────────────┐"
 echo "   │  Every AI action. Tracked. Controlled. Safe. │"
