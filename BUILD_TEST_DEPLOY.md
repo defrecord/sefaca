@@ -21,18 +21,35 @@ sefaca status
 ## Components
 
 ### 1. Core Script (`scripts/sefaca.sh`)
-- Main SEFACA functionality
+- Main SEFACA functionality  
 - Updated with Git SHA for tracking
 - Sourced by installer
 
 ### 2. Installer (`scripts/install-standalone.sh`)
-- Self-contained shell archive
-- Embeds entire sefaca.sh
-- No external downloads
+- Self-contained shell archive (see [Shell Archive Pattern](SHELL_ARCHIVE_PATTERN.md))
+- Embeds entire sefaca.sh using heredoc
+- No external downloads after initial curl
+- ~350 lines including embedded content
 
 ### 3. Deployment
 - GitHub Gist for testing
 - Future: sefaca.dev CDN
+
+## How the Shell Archive Works
+
+The installer contains:
+```bash
+cat > "${INSTALL_DIR}/sefaca.sh" << 'SEFACA_EOF'
+#!/bin/bash
+# ... entire sefaca.sh script embedded here ...
+SEFACA_EOF
+```
+
+This creates a self-extracting installer that:
+1. Downloads as a single file
+2. Extracts embedded content when run
+3. Sets up the complete SEFACA installation
+4. No network calls after initial download
 
 ## Build Process
 
