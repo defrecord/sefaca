@@ -1,4 +1,4 @@
-.PHONY: help all deps clean test lint ci-status
+.PHONY: help all deps clean test lint ci-status serve-local test-install
 
 help: ## Show this help message
 	@echo "SEFACA - Safe Execution Framework for Autonomous Coding Agents"
@@ -65,3 +65,27 @@ ci-status: ## Check CI/CD workflow status
 	@echo "https://github.com/defrecord/sefaca/actions/workflows/deps.yml"
 	@echo ""
 	@command -v gh >/dev/null 2>&1 && gh workflow view deps.yml || echo "Install GitHub CLI (gh) for detailed status"
+
+serve-local: ## Serve SEFACA locally at http://localhost:8080/install.sh
+	@echo "🌐 Starting local SEFACA server..."
+	@echo ""
+	@echo "Setting up mock sefaca.dev at http://localhost:8080"
+	@mkdir -p /tmp/sefaca-server
+	@cp scripts/install-pipe.sh /tmp/sefaca-server/install.sh
+	@cp scripts/sefaca.sh /tmp/sefaca-server/sefaca.sh
+	@echo ""
+	@echo "Server running at: http://localhost:8080"
+	@echo "Install command:  curl -sSL http://localhost:8080/install.sh | sh"
+	@echo ""
+	@echo "Press Ctrl-C to stop"
+	@cd /tmp/sefaca-server && python3 -m http.server 8080
+
+test-install: ## Test installation from localhost (run in another terminal)
+	@echo "🧪 Testing SEFACA installation from localhost..."
+	@echo ""
+	@echo "This will install SEFACA from http://localhost:8080"
+	@echo "Make sure 'make serve-local' is running in another terminal!"
+	@echo ""
+	@read -p "Press Enter to continue..." dummy
+	@export SEFACA_URL="http://localhost:8080/sefaca.sh" && \
+		curl -sSL http://localhost:8080/install.sh | sh
