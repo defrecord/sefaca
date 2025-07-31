@@ -61,9 +61,15 @@ curl -sSL https://gist.github.com/aygp-dr/dc1ecee9eafcee7e3b5120306f76371f/raw |
 
 ### ⚠️ Known Issues
 
-1. Gist method runs in subshell - functions need to be sourced after
+1. ~Gist method runs in subshell - functions need to be sourced after~ **FIXED**: Use eval method
 2. Resource limits cause fork issues on some systems (disabled for now)
 3. FreeBSD CI disabled due to VM reliability (tracked in issue #1)
+
+### 🆕 Latest Changes
+
+1. **Added uninstall command** - `sefaca uninstall` removes installation cleanly
+2. **Fixed gist deployment** - Use `eval "$(curl ...)"` to load in current shell
+3. **Updated validation** - Better one-liners for testing
 
 ### 📝 TODO
 

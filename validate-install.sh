@@ -15,14 +15,20 @@ echo ""
 echo "---"
 echo ""
 
-echo "Option 2: Test from your gist"
-echo "One-liner for remote systems (e.g., ssh pi.lan):"
+echo "Option 2: Production-style test (simulating sefaca.dev)"
+echo "One-liner for testing the exact production flow:"
 echo ""
-echo '# Method 1: Install to ~/.sefaca/bin (persistent)'
-echo 'curl -sSL https://sefaca.dev/install.sh | sh && source ~/.sefaca/bin/load-sefaca && sefaca run --context "[builder:bot:you@local(myapp:main)]" "uname -a && hostname && date"'
+echo '# Step 1: Install'
+echo 'curl -sSL http://localhost:9042/install.sh | sh'
 echo ""
-echo '# Method 2: Quick test via gist (temporary)'
-echo 'eval "$(curl -sSL https://gist.github.com/aygp-dr/dc1ecee9eafcee7e3b5120306f76371f/raw)" && sefaca run --context "[builder:bot:you@local(myapp:main)]" hostname'
+echo '# Step 2: Load in current shell'
+echo 'source ~/.sefaca/bin/load-sefaca'
+echo ""
+echo '# Step 3: Test'
+echo 'sefaca run --context "[builder:bot:you@local(myapp:main)]" "uname -a && hostname && date"'
+echo ""
+echo '# Complete one-liner (note: requires source in same shell):'
+echo 'curl -sSL http://localhost:9042/install.sh | sh && source ~/.sefaca/bin/load-sefaca && sefaca run --context "[builder:bot:you@local(myapp:main)]" hostname'
 echo ""
 echo "---"
 echo ""
