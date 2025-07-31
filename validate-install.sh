@@ -18,7 +18,11 @@ echo ""
 echo "Option 2: Test from your gist"
 echo "One-liner for remote systems (e.g., ssh pi.lan):"
 echo ""
-echo 'curl -sSL https://gist.github.com/aygp-dr/dc1ecee9eafcee7e3b5120306f76371f/raw | bash && sefaca run --context "[builder:bot:you@local(myapp:main)]" "uname -a && hostname && date" && tail -f ~/.sefaca/audit.log'
+echo '# Method 1: Install to ~/.sefaca/bin (persistent)'
+echo 'curl -sSL https://sefaca.dev/install.sh | sh && source ~/.sefaca/bin/load-sefaca && sefaca run --context "[builder:bot:you@local(myapp:main)]" "uname -a && hostname && date"'
+echo ""
+echo '# Method 2: Quick test via gist (temporary)'
+echo 'eval "$(curl -sSL https://gist.github.com/aygp-dr/dc1ecee9eafcee7e3b5120306f76371f/raw)" && sefaca run --context "[builder:bot:you@local(myapp:main)]" hostname'
 echo ""
 echo "---"
 echo ""

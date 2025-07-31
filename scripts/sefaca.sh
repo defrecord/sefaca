@@ -208,6 +208,31 @@ sefaca() {
             sefaca_log "INIT" "SEFACA initialized by ${USER}"
             ;;
             
+        uninstall)
+            echo "🗑️  Uninstalling SEFACA..."
+            echo ""
+            
+            # Check if we're in a temp deployment
+            if [[ "$0" =~ /tmp/sefaca- ]]; then
+                local temp_dir=$(dirname "$0")
+                echo "Removing temporary installation: $temp_dir"
+                rm -rf "$temp_dir"
+            elif [[ -d "$HOME/.sefaca/bin" ]]; then
+                echo "Removing SEFACA from ~/.sefaca/bin"
+                rm -rf "$HOME/.sefaca/bin"
+                echo "✅ SEFACA binaries removed"
+                echo ""
+                echo "Note: Audit logs preserved in ~/.sefaca/"
+                echo "To remove logs: rm -rf ~/.sefaca"
+            else
+                echo "No SEFACA installation found"
+            fi
+            
+            echo ""
+            echo "To remove SEFACA functions from current shell:"
+            echo "  unset -f sefaca sefaca_get_context sefaca_log sefaca_make"
+            ;;
+            
         help|--help|-h)
             cat << EOF
 SEFACA v${SEFACA_VERSION} - Safe Execution Framework for Autonomous Coding Agents
@@ -216,11 +241,12 @@ USAGE:
   sefaca COMMAND [OPTIONS]
 
 COMMANDS:
-  run      Execute command with tracking and limits
-  logs     View audit log
-  status   Show SEFACA status and configuration
-  init     Initialize SEFACA in current shell
-  help     Show this help message
+  run        Execute command with tracking and limits
+  logs       View audit log
+  status     Show SEFACA status and configuration
+  init       Initialize SEFACA in current shell
+  uninstall  Remove SEFACA installation
+  help       Show this help message
 
 RUN OPTIONS:
   --mode MODE        Execution mode (default: logging)

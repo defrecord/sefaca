@@ -1,30 +1,24 @@
 #!/bin/bash
-# SEFACA Temporary Deployment Script
-# Everything runs from /tmp - no permanent changes
+# SEFACA Quick Install - For testing via gist
+# This installs SEFACA and makes it immediately available
 #
-# To test: 
-# 1. Copy this to a GitHub Gist
-# 2. In a new shell: curl -sSL https://gist.github.com/YOUR_GIST_ID/raw | bash
+# Usage: eval "$(curl -sSL https://gist.../raw)"
 
-set -e
-
-echo "🐕 SEFACA Temporary Deployment Test"
-echo "==================================="
-echo ""
-
-# Create temp workspace
-SEFACA_TEMP="/tmp/sefaca-$(date +%s)"
-mkdir -p "$SEFACA_TEMP"
-cd "$SEFACA_TEMP"
-
-echo "📍 Working directory: $SEFACA_TEMP"
-echo ""
-
-# Download the minimal SEFACA script directly
-echo "📥 Downloading SEFACA..."
-cat > sefaca.sh << 'SEFACA_SCRIPT'
+# Install SEFACA to ~/.sefaca/bin
+install_sefaca() {
+    local INSTALL_DIR="${HOME}/.sefaca/bin"
+    local SEFACA_VERSION="0.1.0-minimal"
+    
+    echo "🐕 SEFACA Quick Install" >&2
+    echo "" >&2
+    
+    # Create directory
+    mkdir -p "$INSTALL_DIR"
+    
+    # Download sefaca.sh (embedded for gist)
+    cat > "$INSTALL_DIR/sefaca.sh" << 'SEFACA_EOF'
 #!/bin/bash
-# SEFACA Minimal Implementation - Embedded for testing
+# SEFACA Minimal Implementation
 
 SEFACA_VERSION="0.1.0-minimal"
 SEFACA_LOG_DIR="${SEFACA_LOG_DIR:-${HOME}/.sefaca}"
@@ -76,15 +70,27 @@ sefaca() {
             ;;
         logs)
             shift
-            tail -10 "${SEFACA_AUDIT_LOG}"
+            if [[ -f "${SEFACA_AUDIT_LOG}" ]]; then
+                tail -10 "${SEFACA_AUDIT_LOG}"
+            else
+                echo "No audit log found"
+            fi
             ;;
         status)
-            echo "SEFACA v${SEFACA_VERSION} (temp deployment)"
+            echo "SEFACA v${SEFACA_VERSION}"
             echo "Log directory: ${SEFACA_LOG_DIR}"
             echo "Current context: $(sefaca_get_context)"
             ;;
+        uninstall)
+            echo "🗑️  Uninstalling SEFACA..."
+            if [[ -d "$HOME/.sefaca/bin" ]]; then
+                rm -rf "$HOME/.sefaca/bin"
+                echo "✅ SEFACA removed"
+            fi
+            echo "To remove functions: unset -f sefaca sefaca_get_context sefaca_log sefaca_make"
+            ;;
         *)
-            echo "Usage: sefaca {run|logs|status}"
+            echo "Usage: sefaca {run|logs|status|uninstall}"
             ;;
     esac
 }
@@ -95,36 +101,18 @@ sefaca_make() {
 
 export -f sefaca sefaca_get_context sefaca_log sefaca_make
 
-echo "🐕 SEFACA v${SEFACA_VERSION} loaded (temporary session)"
-echo "📍 Context: $(sefaca_get_context)"
-SEFACA_SCRIPT
+echo "🐕 SEFACA v${SEFACA_VERSION} loaded" >&2
+echo "📍 Context: $(sefaca_get_context)" >&2
+SEFACA_EOF
 
-# Make it executable
-chmod +x sefaca.sh
+    chmod +x "$INSTALL_DIR/sefaca.sh"
+    
+    echo "✅ SEFACA installed to ~/.sefaca/bin" >&2
+    echo "" >&2
+    
+    # Output the source command for eval
+    echo "source $INSTALL_DIR/sefaca.sh"
+}
 
-# Source it into current shell
-echo "🚀 Loading SEFACA..."
-source ./sefaca.sh
-
-echo ""
-echo "✅ SEFACA is ready! Try these commands:"
-echo ""
-echo "  sefaca run echo 'Hello from temp SEFACA!'"
-echo "  sefaca run --context '[test:human:user@temp(demo:main)]' ls"
-echo "  sefaca logs"
-echo "  sefaca status"
-echo ""
-echo "📂 Everything is in: $SEFACA_TEMP"
-echo "🗑️  To cleanup: rm -rf $SEFACA_TEMP"
-echo ""
-
-# Run a demo command
-echo "Demo:"
-sefaca run --context "[builder:bot:demo@temp(test:main)]" echo "SEFACA is working!"
-
-echo ""
-echo "⚠️  Note: Since this runs via curl|bash, functions are only available in this session."
-echo ""
-echo "For persistent installation, run:"
-echo "  curl -sSL https://sefaca.dev/install.sh | sh"
-echo "  source ~/.sefaca/bin/load-sefaca"
+# Run installation and output source command
+install_sefaca
