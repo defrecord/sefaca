@@ -1,6 +1,6 @@
 #!/bin/sh
 # SEFACA Installation Script for Piped Execution
-# Git SHA: 67571dc
+# Git SHA: 304dd02
 # This handles: curl -sSL https://sefaca.dev/install.sh | sh
 #
 # Since we're in a subshell, we can't modify the parent environment.
@@ -10,7 +10,7 @@ set -e
 
 # Configuration
 SEFACA_VERSION="0.1.0-minimal"
-SEFACA_SHA="67571dc"
+SEFACA_SHA="304dd02"
 SEFACA_URL="${SEFACA_URL:-https://raw.githubusercontent.com/defrecord/sefaca/main/scripts/sefaca.sh}"
 INSTALL_DIR="${HOME}/.sefaca/bin"
 

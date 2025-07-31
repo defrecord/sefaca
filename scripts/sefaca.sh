@@ -1,6 +1,6 @@
 #!/bin/bash
 # SEFACA Minimal Implementation - Safe Execution Framework for Autonomous Coding Agents
-# Git SHA: 67571dc
+# Git SHA: 304dd02
 # 
 # This minimal implementation provides core SEFACA functionality:
 # - Context tracking for every command
