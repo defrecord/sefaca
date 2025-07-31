@@ -30,6 +30,12 @@ target_file="${INSTALL_DIR}/sefaca.sh"
 if [ "${SEFACA_URL#file://}" != "$SEFACA_URL" ]; then
     # Handle file:// URL for testing
     cp "${SEFACA_URL#file://}" "$target_file"
+elif [ -n "$SEFACA_URL" ] && [ "$SEFACA_URL" != "${SEFACA_URL#http://localhost}" ]; then
+    # Handle localhost URLs - URL is already set correctly by make test-install
+    curl -sSL "$SEFACA_URL" -o "$target_file" || {
+        echo "❌ Error: Failed to download from localhost"
+        exit 1
+    }
 else
     # Download from URL
     curl -sSL "$SEFACA_URL" -o "$target_file" || {

@@ -121,3 +121,6 @@ echo ""
 # Run a demo command
 echo "Demo:"
 sefaca run --context "[builder:bot:demo@temp(test:main)]" echo "SEFACA is working!"
+
+# Export functions so they're available after script ends
+export -f sefaca sefaca_get_context sefaca_log SEFACA_make
